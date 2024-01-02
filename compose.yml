@@ -1,0 +1,24 @@
+# sudo docker compose up --build -d
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./fe
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    volumes:
+      - epg:/app/epg
+    ports:
+      - "4000:4000" # Port for frontend
+  backend:
+    container_name: backend
+    build:
+      context: ./be
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    volumes:
+      - epg:/app/epg
+
+# Shared volume so that the backend can access the EPG repo without cloning again
+volumes:
+  epg:
